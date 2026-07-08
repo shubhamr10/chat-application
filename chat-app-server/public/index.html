@@ -10,7 +10,10 @@
       #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
       #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
       #input:focus { outline: none; }
-      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+      #userNameBorder > button ,#form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+
+      #username{ border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #userNameBorder { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: sticky; top:0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
 
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages > li { padding: 0.5rem 1rem; }
@@ -18,6 +21,9 @@
     </style>
 </head>
 <body>
+    <form id="userNameBorder" action="">
+      <input type="text" id="username" autocomplete="off"/> <button>Update</button>
+    </form>
     <ul id="messages"></ul>
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
@@ -25,26 +31,95 @@
     
     <script src="https://cdn.socket.io/4.8.3/socket.io.min.js" integrity="sha384-kzavj5fiMwLKzzD1f8S7TeoVIEi7uKHvbTA3ueZkrzYq75pNQUiUi6Dy98Q3fxb0" crossorigin="anonymous"></script>
     <script>
-       const socket =  io();
-       const form = document.getElementById("form");
-       const inputText = document.getElementById("input");
+          const socket = io();
+          const nickname = window.prompt("Enter a nickname.");
 
-       form.addEventListener("submit", (e) => {
+          socket.on("connect", ()=> {
+            console.log("Connected to server! ID: ", socket.id);
+          });
+
+          // if the nickname is available, set the nickname.
+          if(nickname){
+            document.getElementById("username").value = nickname;
+            socket.emit("set nickname", nickname);
+          }
+
+
+          // attach the chat html block
+          const form = document.getElementById("form");
+          const inputText = document.getElementById("input");
+
+          form.addEventListener("submit", (e) => {
             e.preventDefault();
             const message = inputText.value;
             if(message != ""){
-                socket.emit("chat message", message);
-                inputText.value = "";
+              socket.emit("chat message",message);
             }
-       });
+          });
 
-       socket.on("chat message", (msg)=>{
-            const messagesList = document.getElementById("messages");
-            const item = document.createElement("li");
-            item.textContent = msg;
-            messagesList.appendChild(item);
-            window.scrollTo(0,document.body.scrollHeight);
-       })
+          input.addEventListener("input", () => {
+            socket.emit("typing");
+            clearTimeout(typingTimer);
+            // stop timer
+            typingTimer = setTimeout(()=> {}, 1500);
+          });
+
+        socket.on("chat message", (msgObj)=> {
+          const messagesList = document.getElementById("messages");
+          const username = Object.keys(msgObj)[0];
+          const message = Object.values(msgObj)[0];
+
+          const item = document.createElement("li");
+          item.textContent = message;
+          messagesList.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+
+        socket.on("typing", (data) => {
+          
+        })
+
+        socket.on("stop typing", (data) => {
+          
+        });
+
+      //  const userNamePrompt = window.prompt("Enter your user name!");
+      //  const socket =  io();
+      //  const form = document.getElementById("form");
+      //  const inputText = document.getElementById("input");
+      //  const userNameBorder = document.getElementById("userNameBorder");
+      //  const userNameText = document.getElementById("username");
+      //  let username = "";
+
+      //  form.addEventListener("submit", (e) => {
+      //       e.preventDefault();
+      //       const message = inputText.value;
+      //       if(message != ""){
+      //           socket.emit("chat message", message);
+      //           inputText.value = "";
+      //       }
+      //  });
+
+      //  userNameBorder.addEventListener("submit", (e) => {
+      //   e.preventDefault();
+      //   const userName = userNameText.value;
+      //   if(userName != ""){
+      //     socket.emit("username", userName);
+      //   }
+      //  })
+
+      //  socket.on("connect", ()=> {
+      //   console.log("Connected to server! ID:", socket.id); 
+      //   userNameText.value = socket.id;
+      //  });
+
+      //  socket.on("chat message", (msg)=>{
+      //       const messagesList = document.getElementById("messages");
+      //       const item = document.createElement("li");
+      //       item.textContent = msg;
+      //       messagesList.appendChild(item);
+      //       window.scrollTo(0,document.body.scrollHeight);
+      //  })
     </script>
 </body>
 </html>

@@ -82,19 +82,19 @@ body{
 }
 
 .header{
-    height: 10%;
+    height:74px;
     text-align: center;
 }
 
 .chat-area{
     background-color: #EAE3E3;
-    height: 75%;
+    height: -webkit-fill-available;
     padding: 5px;
 }
 
 .footer{
     background-color: azure;
-    height: 15%;
+    height: 110px;
 }
 
 

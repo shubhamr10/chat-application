@@ -8,6 +8,9 @@ const SET_USERNAME = "set_username";
 const SEND_MESSAGE = "chat_message";
 const RECIEVE_MESSAGE = "chat_message";
 
+const USER_CONNECTED = "USER_CONNECTED";
+const USER_DISCONNECTED = "USER_DISCONNECTED";
+
 const USERNAME_SECTION = document.getElementById(USERNAME_SECTION_ID);
 const CHAT_SECTION = document.getElementById(CHAT_SECTION_ID);
 
@@ -32,6 +35,7 @@ function checkUserNameIsAlreadyThere(){
     const userName = sessionStorage.getItem(USER_NAME_SOCKET);
     if(userName){
         document.getElementById("userNameDisplay").innerText = userName;
+        socket.emit(SET_USERNAME, userName);
         return true;
     }
     return false;
@@ -40,6 +44,7 @@ function checkUserNameIsAlreadyThere(){
 function setUserName(name){
     sessionStorage.setItem(USER_NAME_SOCKET, name);
     document.getElementById("userNameDisplay").innerText = name;
+    socket.emit(SET_USERNAME, userName);
 }
 
 function getUserName(){
@@ -87,7 +92,7 @@ MESSAGE_FORM.addEventListener("submit", (e) => {
         const messageObject = {
             timestamp :Date.now() / 1000,
             messageText:message,
-            userName:getUserName
+            userName:getUserName()
         };
         addMessage(messageObject, true);
         document.getElementById("message").value = "";
@@ -98,14 +103,21 @@ socket.on(RECIEVE_MESSAGE, (messageObj) => {
     addMessage(messageObj);
 });
 
+socket.on(USER_CONNECTED, (message) => {
+    UL_MESSAGE_LISTS.innerHTML += `<li class="user-info">${message}</li>`;
+})
+
+socket.on(USER_DISCONNECTED, (message) => {
+    UL_MESSAGE_LISTS.innerHTML += `<li class="user-info">${message}</li>`;
+})
+
 function addMessage(messageObj, isSelf = false){
-    const message = "";
+    let message = "";
     if(isSelf){
         message = constructMessage(messageObj, isSelf);
     } else {
         message = constructMessage(messageObj);
     }
-
     UL_MESSAGE_LISTS.innerHTML += message;
 }
 
@@ -113,7 +125,7 @@ function addMessage(messageObj, isSelf = false){
 function constructMessage(messageObj, isSelf = false){
     const { timestamp, messageText, userName } = messageObj;
     const timeLocale = convertTimeToLocale(timestamp);
-    const message = "";
+    let message = "";
     if(isSelf){
         message = `<li class="right-message">
                         <div class="message-list-main">
@@ -135,4 +147,6 @@ function constructMessage(messageObj, isSelf = false){
                         </div>
                     </li>`;
     }
+
+    return message;
 }

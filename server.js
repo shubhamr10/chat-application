@@ -41,7 +41,10 @@ io.on("connection", (socket)=> {
     // When the user is disconnected!
     socket.on("disconnect", ()=>{
         console.log(chalk.red(`${userMapping[socket.id]} disconected with socket ID ==> ${socket.id}`));
-        socket.broadcast.emit(USER_DISCONNECTED, `${userMapping[socket.id]} disconected from the chatroom !`);
+        if(userMapping[socket.id]){
+            socket.broadcast.emit(USER_DISCONNECTED, `${userMapping[socket.id]} disconected from the chatroom !`);
+            delete userMapping[socket.id];
+        }
     })
 });
 

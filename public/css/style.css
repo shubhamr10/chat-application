@@ -11,6 +11,19 @@ body{
     box-sizing: border-box;
 }
 
+ul{
+    text-decoration: none;
+    margin: 0;
+    padding: 0 20px;
+
+}
+
+li{
+    list-style: none;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 #userNameContainer{
     display: none;
     justify-content: center; /* Horizontally centers the div */
@@ -94,6 +107,7 @@ body{
     background-color: #EAE3E3;
     height: -webkit-fill-available;
     padding: 5px;
+    overflow-y: auto;
 }
 
 .footer{
@@ -156,7 +170,7 @@ body{
 }
 
 .message-text{
-    min-height: 78px;
+    min-height: 50px;
     width: 500px;
     background-color: whitesmoke;
     border-radius: 8px;
@@ -178,15 +192,12 @@ body{
     text-align: right;
 }
 
-ul{
-    text-decoration: none;
-    margin: 0;
-    padding: 0 20px;
-
+.user-info{
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 13px;
+    color: #565656;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-li{
-    list-style: none;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}

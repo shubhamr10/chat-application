@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat app Phase - 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Josefin+Sans:ital@0;1&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Yuyu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/style.css"/>
+</head>
+<body>
+    <section id="userNameContainer">
+        <form id="userNameInputform" action="">
+            <input type="text" id="userName" class="userName" placeholder="Enter your username..." autocomplete="none"/>
+            <button type="submit" id="">Enter Chat room</button>
+        </form>
+    </section>
+
+    <section id="chatRoomContainer">
+        <div class="sidebar-left">This section will contain available rooms</div>
+        <div class="chat-main">
+            <div class="header">
+                <h1>Welcome <span id="userNameDisplay">{{user}}<span></h1>
+            </div>
+            <div id="messageList" class="chat-area">
+                <ul id="messageLists">
+                </ul>
+            </div>
+            <div class="footer">
+                <form action="" id="messageForm">
+                    <input type="text" id="message" class="message" placeholder="Enter your messages..."/>
+                    <button type="submit" id="">Send</button>
+                </form>
+            </div>
+
+        </div>
+        <div class="sidebar-right">This section will contain online users</div>
+    </section>
+    <script src="https://cdn.socket.io/4.8.3/socket.io.min.js" integrity="sha384-kzavj5fiMwLKzzD1f8S7TeoVIEi7uKHvbTA3ueZkrzYq75pNQUiUi6Dy98Q3fxb0" crossorigin="anonymous"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>

@@ -4,6 +4,8 @@ import { Server } from "socket.io";
 import chalk from "chalk";
 import type { Socket } from "socket.io";
 import type { User, Message } from "./types";
+import authRouter from "./routes/auth";
+import {pool} from "./db";
 
 const USER_CONNECTED = "user_connected";
 const USER_DISCONNECTED = "user_disconnected";
@@ -11,6 +13,8 @@ const SET_USERNAME = "set_username";
 const CHAT_MESSAGE = "chat_message";
 
 const app = express();
+app.use(express.json());
+app.use("/auth", authRouter);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors : {
@@ -51,3 +55,9 @@ io.on("connection", (socket:Socket) => {
 });
 
 server.listen(3000, ()=> console.log(chalk.blue("server is running on port 3000")));
+
+process.on('SIGINT', async () => {
+    await pool.end();
+    console.log('Database pool closed');
+    process.exit(0);
+});

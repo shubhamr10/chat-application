@@ -6,6 +6,8 @@ import type { Socket } from "socket.io";
 import type { User, Message } from "./types";
 import authRouter from "./routes/auth";
 import {pool} from "./db";
+import { authSocket } from "./middleware/authSocket";
+import type { TokenPayload } from "./middleware/authSocket";
 
 const USER_CONNECTED = "user_connected";
 const USER_DISCONNECTED = "user_disconnected";
@@ -26,15 +28,19 @@ const io = new Server(server, {
 // User record
 const userMapping : Record<string, User> = {};
 
+// Integrate the authSocket middleware
+io.use(authSocket);
+
 // Initialise socket connection
 io.on("connection", (socket:Socket) => {
   console.log(chalk.green(`A user connected with socket ID ==> ${socket.id}`));
 
   // Only broadcast when user sets a name
   socket.on(SET_USERNAME, (username:string) => {
+    const user = socket.data.user as TokenPayload;
     userMapping[socket.id] = {
       id:socket.id,
-      username:username
+      username:user.username
     };
     io.emit(USER_CONNECTED, Object.values(userMapping));
   });

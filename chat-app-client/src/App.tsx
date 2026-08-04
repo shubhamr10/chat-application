@@ -10,7 +10,7 @@ function App(){
     let token = checkIfTokenIsAvailable();
     return token ? token.userObject.username : "";
   });
-  // return <SignUpPage/>
+  return <SignUpPage/>
   if(username === ""){
     return <LoginPage onLogin={setUsername}/>
   }

@@ -28,6 +28,9 @@ function LoginPage({onLogin}: LoginPageProps){
             storeAuthenticationTokenInLocalStorage(token);
             socket.auth = { token: token.token };
             socket.connect();
+            // Reset the login fields
+            setEmail("");
+            setPassword("");
             onLogin(token.userObject.username.trim());
         } catch (e){
             console.error(e);

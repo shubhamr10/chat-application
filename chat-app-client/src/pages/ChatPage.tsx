@@ -19,8 +19,20 @@ function ChatPage({username}: ChatPageProps){
     const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
-        // Tell the server who this user is
-        socket.emit(SET_USERNAME, username);
+        function onConnect(){
+            // Tell the server who this user is
+            socket.emit(SET_USERNAME, username);
+        }
+        // Connect if not already connected
+        if (!socket.connected) {
+            socket.connect();
+        } else {
+            onConnect();
+        }
+
+
+        // Listen when socket is connected set the username
+        socket.on("connect", onConnect);
 
         //Listen for incoming messages
         socket.on(CHAT_MESSAGE, (message:Message) => {
@@ -37,6 +49,7 @@ function ChatPage({username}: ChatPageProps){
 
         // CRITICAL - Cleanup do not skip this
         return () => {
+            socket.off("connect", onConnect);
             socket.off(CHAT_MESSAGE);
             socket.off(USER_CONNECTED);
             socket.off(USER_DISCONNECTED);

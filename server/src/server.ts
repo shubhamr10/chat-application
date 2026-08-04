@@ -8,6 +8,7 @@ import authRouter from "./routes/auth";
 import {pool} from "./db";
 import { authSocket } from "./middleware/authSocket";
 import type { TokenPayload } from "./middleware/authSocket";
+import cors from "cors";
 
 const USER_CONNECTED = "user_connected";
 const USER_DISCONNECTED = "user_disconnected";
@@ -15,6 +16,11 @@ const SET_USERNAME = "set_username";
 const CHAT_MESSAGE = "chat_message";
 
 const app = express();
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 app.use(express.json());
 app.use("/auth", authRouter);
 const server = http.createServer(app);
@@ -42,18 +48,22 @@ io.on("connection", (socket:Socket) => {
       id:socket.id,
       username:user.username
     };
+    console.log(chalk.blue(JSON.stringify(userMapping[socket.id])));
     io.emit(USER_CONNECTED, Object.values(userMapping));
   });
 
   // When a user sends a message
   socket.on(CHAT_MESSAGE, (message:Message) => {
     // echo to everyone including sender
+    console.log(chalk.hex("#007bff")("user has send a message"))
     io.emit(CHAT_MESSAGE, message);
   })
 
   // When a user is disconnected!
   socket.on("disconnect", () => {
+    console.log(chalk.red(`A user disconnected with socket ID ==> ${socket.id}`));
     if(userMapping[socket.id]){
+      console.log(chalk.red(`A user disconnected with socket ID ==> ${socket.id}`));
       delete userMapping[socket.id];
       io.emit(USER_DISCONNECTED, Object.values(userMapping));
     }

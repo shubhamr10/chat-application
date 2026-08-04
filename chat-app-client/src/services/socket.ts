@@ -1,8 +1,8 @@
 import { io } from "socket.io-client";
-import type { AuthResponse } from "../types";
+import { checkIfTokenIsAvailable } from "../utils/index";
 
-const storedUserObject = localStorage.getItem('userToken') ?? '';
-const token = storedUserObject ? (JSON.parse(storedUserObject) as AuthResponse).token : "";
+const storedUserObject = checkIfTokenIsAvailable();
+const token = storedUserObject ? storedUserObject.token : "";
 export const socket = io('http://localhost:3000', {
     auth: { token },
     autoConnect: !!token

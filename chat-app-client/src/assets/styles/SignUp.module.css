@@ -1,0 +1,27 @@
+
+.container{
+    display: flex;
+    min-height: 100vh;
+}
+.section_left{
+    background: linear-gradient(180deg, #0162DD 0%, #02298A 85%, #021B79 100%);
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.section_right{
+    /* background: radial-gradient(circle, #BBBBBB 0%, rgba(204, 204, 204, 0.1) 90%); */
+    background: radial-gradient(
+    circle at 20% 20%, 
+    #FFFFFF 0%, 
+    #EBEBEB 50%, 
+    #C8C8C8 100%
+  );
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}

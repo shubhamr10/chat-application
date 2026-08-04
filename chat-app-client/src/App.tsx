@@ -1,8 +1,8 @@
 import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
 import ChatPage from "./pages/ChatPage";
+import SignUpPage from "./pages/SignUpPage";
 import { checkIfTokenIsAvailable } from "./utils";
-import type { AuthResponse } from "./types";
 
 
 function App(){
@@ -10,6 +10,7 @@ function App(){
     let token = checkIfTokenIsAvailable();
     return token ? token.userObject.username : "";
   });
+  // return <SignUpPage/>
   if(username === ""){
     return <LoginPage onLogin={setUsername}/>
   }

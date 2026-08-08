@@ -88,7 +88,7 @@ function ChatPage({username}: ChatPageProps){
                 <MessageFeed handleSend={handleSend} messages={messages} username={username} />
             </div>
             <div className={styles.onlineUsers}>
-                <UserList users={users} onlineCount={1} selectedUser={users[0]} />
+                <UserList users={users} handleUserClick={()=>{}} onlineCount={1} selectedUser={users[0]} />
             </div>
         </div>
         </>

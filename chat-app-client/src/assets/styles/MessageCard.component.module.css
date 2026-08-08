@@ -94,9 +94,9 @@
 }
 
 .message_item.other .timestamp {
-  margin-left: 52px;
+  margin-left: 70px;
 }
 
 .message_item.self .timestamp {
-  margin-right: 52px;
+  margin-right: 70px;
 }

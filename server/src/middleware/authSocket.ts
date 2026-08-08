@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import type { Socket } from "socket.io";
+import type {Socket} from "socket.io";
 
 export interface TokenPayload {
     id: number;
@@ -12,8 +12,7 @@ export function authSocket(socket: Socket, next:(err?:Error) => void){
         return next(new Error("Authentication error: No token provided!"));
     }
     try{
-        const decoded = jwt.verify(token, process.env["JWT_SECRET"] as string) as TokenPayload;
-        socket.data.user = decoded;
+        socket.data.user = jwt.verify(token, process.env["JWT_SECRET"] as string) as TokenPayload;
         next();
     } catch (e) {
         console.error(e);

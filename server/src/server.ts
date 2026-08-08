@@ -3,7 +3,7 @@ import express from "express";
 import { Server } from "socket.io";
 import chalk from "chalk";
 import type { Socket } from "socket.io";
-import type { User, Message } from "./types";
+import type { User, Message, SocketUsers } from "./types";
 import authRouter from "./routes/auth";
 import {pool} from "./db";
 import { authSocket } from "./middleware/authSocket";
@@ -32,7 +32,7 @@ const io = new Server(server, {
 });
 
 // User record
-const userMapping : Record<string, User> = {};
+const userMapping : Record<string, SocketUsers> = {};
 
 // Integrate the authSocket middleware
 io.use(authSocket);
@@ -45,8 +45,10 @@ io.on("connection", (socket:Socket) => {
   socket.on(SET_USERNAME, (username:string) => {
     const user = socket.data.user as TokenPayload;
     userMapping[socket.id] = {
-      id:socket.id,
-      username:user.username
+      socket_id:socket.id,
+      username:user.username,
+      id:socket.data.user.id,
+
     };
     console.log(chalk.blue(JSON.stringify(userMapping[socket.id])));
     io.emit(USER_CONNECTED, Object.values(userMapping));

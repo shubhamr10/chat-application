@@ -4,23 +4,33 @@ import ChatPage from "./pages/ChatPage";
 import SignUpPage from "./pages/SignUpPage";
 import { checkIfTokenIsAvailable } from "./utils";
 
+import type { User } from "./types";
+
+
 // import { mockUsers } from "./mock/data";
 
 
 function App(){
-  const [username, setUsername] = useState<string>(()=>{
+  const [user, setUser] = useState<User | null>(()=>{
     let token = checkIfTokenIsAvailable();
-    return token ? token.userObject.username : "";
+    if(token){
+      const authUser:User = {
+        id:(token.userObject.id),
+        username:token.userObject.username
+      };
+      return authUser
+    }
+    return null;
   });
 
   const [page, setPage] = useState<"login" | "signup">("login");
-  if(username === ""){
+  if(user === null){
     if(page === "signup"){
-      return <SignUpPage onSignUp={setUsername} onNavigateToLogin={() => setPage("login")} /> 
+      return <SignUpPage onSignUp={setUser} onNavigateToLogin={() => setPage("login")} /> 
     }
-    return <LoginPage onLogin={setUsername} onNavigateToSignUp={()=>setPage("signup")} />
+    return <LoginPage onLogin={setUser} onNavigateToSignUp={()=>setPage("signup")} />
   }
-  return <ChatPage username={username} />
+  return <ChatPage authUser={user} />
 }
 
 export default App;

@@ -12,12 +12,12 @@ import MessageFeed from "../components/MessageFeed";
 
 
 interface ChatPageProps{
-    username: string;
+    authUser: User;
 }
 
 
 
-function ChatPage({username}: ChatPageProps){
+function ChatPage({authUser}: ChatPageProps){
     const [messages, setMessages] = useState<Message[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [rooms, setRooms] = useState<Room[]>([]);
@@ -28,7 +28,7 @@ function ChatPage({username}: ChatPageProps){
     useEffect(() => {
         function onConnect(){
             // Tell the server who this user is
-            socket.emit(SET_USERNAME, username);
+            socket.emit(SET_USERNAME, authUser.username);
         }
         // Connect if not already connected
         if (!socket.connected) {
@@ -61,14 +61,14 @@ function ChatPage({username}: ChatPageProps){
             socket.off(USER_CONNECTED);
             socket.off(USER_DISCONNECTED);
         }
-    }, [username]);
+    }, [authUser.username]);
 
 
     function handleSend(content:string):void{
         const message: Message = {
             id: Date.now().toString(),
             content,
-            sender: username,
+            sender: authUser.username,
             timestamp: new Date().toISOString()
         };
         socket.emit(CHAT_MESSAGE, message);
@@ -79,16 +79,16 @@ function ChatPage({username}: ChatPageProps){
         <div className={styles.container}>
             <div className={styles.sidebar}>
                 <div className={styles.usernameSection}>
-                    <span className={`${styles.initials}  poppins-semibold`}>{ username.charAt(0).toUpperCase() }</span>
-                    <span className={`${styles.username}  sansation-regular`}>{username}</span>
+                    <span className={`${styles.initials}  poppins-semibold`}>{ authUser.username.charAt(0).toUpperCase() }</span>
+                    <span className={`${styles.username}  sansation-regular`}>{authUser.username}</span>
                 </div>
                 <RoomLists activeRoom={selectedRoom} onRoomSelect={setSelectedRoom} rooms={rooms} />
             </div>
             <div className={styles.chatSection}>
-                <MessageFeed handleSend={handleSend} messages={messages} username={username} />
+                <MessageFeed handleSend={handleSend} messages={messages} username={authUser.username} />
             </div>
             <div className={styles.onlineUsers}>
-                <UserList users={users} handleUserClick={()=>{}} onlineCount={1} selectedUser={users[0]} />
+                <UserList users={users} handleUserClick={()=>{}} onlineCount={users.length} selectedUser={authUser} />
             </div>
         </div>
         </>

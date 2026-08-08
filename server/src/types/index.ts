@@ -14,3 +14,8 @@ export interface Room{
     id:string;
     name:string;
 }
+
+
+export interface SocketUsers extends User {
+    socket_id:string;
+}

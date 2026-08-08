@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styles from "../assets/styles/LoginPage.module.css";
 import { login } from "../services/api";
-import type { AuthResponse, UserLoginPayload } from "../types/index";
+import type { AuthResponse, User, UserLoginPayload } from "../types/index";
 import { storeAuthenticationTokenInLocalStorage } from "../utils";
 import { socket } from "../services/socket";
 import AuthPageComponent from "../components/AuthPage.component";
 
 interface LoginPageProps {
-    onLogin:(username:string) => void;
+    onLogin:(user:User) => void;
     onNavigateToSignUp:()=>void;
 }
 
@@ -29,7 +29,10 @@ function LoginPage({onLogin, onNavigateToSignUp}: LoginPageProps){
             storeAuthenticationTokenInLocalStorage(token);
             socket.auth = { token: token.token };
             socket.connect();
-            onLogin(token.userObject.username.trim());
+            onLogin({
+                id:(token.userObject.id),
+                username:token.userObject.username
+            } as User);
         } catch (e){
             console.error(e);
             alert("some error occured while calling login");

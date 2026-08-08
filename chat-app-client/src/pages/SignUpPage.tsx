@@ -1,13 +1,13 @@
 import { useState } from "react";
 import styles from "../assets/styles/SignUp.module.css";
 import AuthPageComponent from "../components/AuthPage.component";
-import type { AuthResponse, UserSignUpPayload } from "../types";
+import type { AuthResponse, User, UserSignUpPayload } from "../types";
 import { register } from "../services/api";
 import { storeAuthenticationTokenInLocalStorage } from "../utils";
 import { socket } from "../services/socket";
 
 interface SignUpPageProps {
-    onSignUp:(username:string) => void;
+    onSignUp:(user:User) => void;
     onNavigateToLogin:()=>void;
 }
 
@@ -33,7 +33,10 @@ function SignUpPage({ onSignUp, onNavigateToLogin }:SignUpPageProps){
             storeAuthenticationTokenInLocalStorage(token);
             socket.auth = { token: token.token };
             socket.connect();
-            onSignUp(token.userObject.username);
+            onSignUp({
+                id:(token.userObject.id),
+                username:token.userObject.username
+            } as User);
         } catch (e){
             console.error(e);
             alert("Server error");

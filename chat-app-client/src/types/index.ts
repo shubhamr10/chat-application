@@ -11,8 +11,9 @@ export interface Room{
 }
 
 export interface User{
-    id:string;
+    id:number;
     username:string;
+    socket_id: string;
 }
 
 // API's interface

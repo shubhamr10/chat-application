@@ -19,7 +19,6 @@
 }
 
 .usernameSection{
-    /* height: 60px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,6 +47,7 @@
     flex: 3;
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* critical */
 }
 
 .messagesFeed {
@@ -58,11 +58,7 @@
 
 .onlineUsers{
     flex:1;
-    background: radial-gradient(
-    circle at 20% 20%, 
-    #FFFFFF 0%, 
-    #EBEBEB 50%, 
-    #C8C8C8 100%
-  );
+    background: #EBEBEB;
+    border-left: 1px solid #C8C8C8;
 }
 

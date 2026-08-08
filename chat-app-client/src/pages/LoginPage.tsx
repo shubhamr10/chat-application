@@ -43,7 +43,7 @@ function LoginPage({onLogin, onNavigateToSignUp}: LoginPageProps){
                     <span className={`${styles.hello_text} poppins-semibold`}>Hello Again !</span>
                     <span className={`${styles.welcome_text} poppins-regular`}>Welcome Back</span>
                 </div>
-                <form  action="" onSubmit={handleSubmit}>
+                <form id="login-form"  action="" onSubmit={handleSubmit}>
                     <div className={styles.form_inputs}>
                         <div className={styles.input_group}>
                             <svg className={styles.input_icon} width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">

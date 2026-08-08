@@ -4,11 +4,13 @@ import ChatPage from "./pages/ChatPage";
 import SignUpPage from "./pages/SignUpPage";
 import { checkIfTokenIsAvailable } from "./utils";
 
+import { mockUsers } from "./mock/data";
+
 
 function App(){
   const [username, setUsername] = useState<string>(()=>{
     let token = checkIfTokenIsAvailable();
-    return token ? token.userObject.username : "Kumar Shubham";
+    return token ? token.userObject.username : mockUsers[0].username;
   });
 
   const [page, setPage] = useState<"login" | "signup">("login");

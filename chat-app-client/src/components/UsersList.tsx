@@ -6,9 +6,9 @@ interface UserListProps {
 
 function UserList({ users }: UserListProps){
     return (
-        <div>
+        <div style={{padding:"20px"}}>
             <h3>Online Users</h3>
-            <ul>
+            <ul style={{listStyleType:"none"}}>
                 {
                     users.map((user) => (<li key={user.id}>{user.username}</li>))
                 }

@@ -48,7 +48,7 @@ function SignUpPage({ onSignUp, onNavigateToLogin }:SignUpPageProps){
                     <span className={`${styles.hello_text} poppins-semibold`}>Hello</span>
                     <span className={`${styles.welcome_text} poppins-regular`}>Sign Up to Get Started.</span>
                 </div>
-                <form  action="" onSubmit={handleSubmit}>
+                <form  id="signup-form" action="" onSubmit={handleSubmit}>
                     <div className={styles.form_inputs}>
                         <div className={styles.input_group}>
                             <svg className={styles.input_icon} width="21" height="21" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">

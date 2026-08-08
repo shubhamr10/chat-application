@@ -7,6 +7,7 @@ import RoomLists from "../components/RoomsList";
 import type { Message, User, Room } from "../types";
 import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE } from "../contants";
 import styles from "../assets/styles/ChatPage.module.css";
+import MessageFeed from "../components/MessageFeed";
 
 // Mock data only to be used during dev.
 import { mockUsers, mockMessages, mockRooms } from "../mock/data";
@@ -86,7 +87,7 @@ function ChatPage({username}: ChatPageProps){
                 <RoomLists activeRoom={selectedRoom} onRoomSelect={setSelectedRoom} rooms={mockRooms} />
             </div>
             <div className={styles.chatSection}>
-                <div className={styles.messagesFeed}>
+                {/* <div className={styles.messagesFeed}>
                     {
                         messages.map((msg:Message) => (
                             <MessageCard
@@ -97,7 +98,8 @@ function ChatPage({username}: ChatPageProps){
                         ))
                     }
                 </div>
-                <MessageInput onSend={handleSend} />
+                <MessageInput onSend={handleSend} /> */}
+                <MessageFeed handleSend={handleSend} messages={messages} username={username} />
             </div>
             <div className={styles.onlineUsers}>
                 <UserList users={users} />

@@ -8,9 +8,10 @@ import AuthPageComponent from "../components/AuthPage.component";
 
 interface LoginPageProps {
     onLogin:(username:string) => void;
+    onNavigateToSignUp:()=>void;
 }
 
-function LoginPage({onLogin}: LoginPageProps){
+function LoginPage({onLogin, onNavigateToSignUp}: LoginPageProps){
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -28,9 +29,6 @@ function LoginPage({onLogin}: LoginPageProps){
             storeAuthenticationTokenInLocalStorage(token);
             socket.auth = { token: token.token };
             socket.connect();
-            // Reset the login fields
-            setEmail("");
-            setPassword("");
             onLogin(token.userObject.username.trim());
         } catch (e){
             console.error(e);
@@ -66,7 +64,7 @@ function LoginPage({onLogin}: LoginPageProps){
                 </form>
                 <div className={styles.form_footer}>
                     <span className={`${styles.forget_password} poppins-regular`}>Forgot Password ?</span>
-                    <button className={`${styles.signup_button} poppins-medium`}>
+                    <button className={`${styles.signup_button} poppins-medium`} onClick={onNavigateToSignUp}>
                         <svg 
                             width="18" 
                             height="18" 

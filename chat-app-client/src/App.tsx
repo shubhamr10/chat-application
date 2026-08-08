@@ -8,11 +8,15 @@ import { checkIfTokenIsAvailable } from "./utils";
 function App(){
   const [username, setUsername] = useState<string>(()=>{
     let token = checkIfTokenIsAvailable();
-    return token ? token.userObject.username : "";
+    return token ? token.userObject.username : "Kumar Shubham!!!";
   });
-  return <SignUpPage/>
+
+  const [page, setPage] = useState<"login" | "signup">("login");
   if(username === ""){
-    return <LoginPage onLogin={setUsername}/>
+    if(page === "signup"){
+      return <SignUpPage onSignUp={setUsername} onNavigateToLogin={() => setPage("login")} /> 
+    }
+    return <LoginPage onLogin={setUsername} onNavigateToSignUp={()=>setPage("signup")} />
   }
   return <ChatPage username={username} />
 }

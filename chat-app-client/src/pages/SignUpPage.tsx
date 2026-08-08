@@ -6,8 +6,13 @@ import { register } from "../services/api";
 import { storeAuthenticationTokenInLocalStorage } from "../utils";
 import { socket } from "../services/socket";
 
+interface SignUpPageProps {
+    onSignUp:(username:string) => void;
+    onNavigateToLogin:()=>void;
+}
 
-function SignUpPage(){
+
+function SignUpPage({ onSignUp, onNavigateToLogin }:SignUpPageProps){
     const [username, setUserName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -28,6 +33,7 @@ function SignUpPage(){
             storeAuthenticationTokenInLocalStorage(token);
             socket.auth = { token: token.token };
             socket.connect();
+            onSignUp(token.userObject.username);
         } catch (e){
             console.error(e);
             alert("Server error");
@@ -46,7 +52,7 @@ function SignUpPage(){
                     <div className={styles.form_inputs}>
                         <div className={styles.input_group}>
                             <svg className={styles.input_icon} width="21" height="21" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_201_4119)">
+                                <g clipPath="url(#clip0_201_4119)">
                                     <path d="M14.8303 16.6842C19.4358 16.6842 23.1724 12.9477 23.1724 8.34212C23.1724 3.73658 19.4358 0 14.8303 0C10.2247 0 6.48814 3.73658 6.48814 8.34212C6.48814 12.9477 10.2247 16.6842 14.8303 16.6842ZM22.2455 18.5381H19.0535C17.7674 19.129 16.3365 19.465 14.8303 19.465C13.324 19.465 11.8989 19.129 10.6071 18.5381H7.41504C3.31929 18.5381 -0.000183105 21.8575 -0.000183105 25.9533V26.8802C-0.000183105 28.4154 1.24534 29.6609 2.78053 29.6609H26.88C28.4152 29.6609 29.6607 28.4154 29.6607 26.8802V25.9533C29.6607 21.8575 26.3412 18.5381 22.2455 18.5381Z" fill="#CCCCCC"/>
                                 </g>
                                 <defs>
@@ -76,7 +82,7 @@ function SignUpPage(){
                 </form>
                 <div className={styles.form_footer}>
                     <span className={`${styles.forget_password} poppins-regular`}>Already have an account with us?</span>
-                    <button className={`${styles.signup_button} poppins-medium`}>
+                    <button className={`${styles.signup_button} poppins-medium`} onClick={onNavigateToLogin}>
                         <svg 
                             width="18" 
                             height="18" 

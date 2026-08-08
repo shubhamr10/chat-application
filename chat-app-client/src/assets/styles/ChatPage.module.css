@@ -1,0 +1,42 @@
+.topContainer{
+    display: flex;
+    height: 5vh;
+    background-color: #03459a;
+}
+
+.container{
+    display: flex;
+    height: 97vh;
+}
+
+.sidebar{
+    flex: 1;
+    background: linear-gradient(180deg, #0162DD 0%, #02298A 85%, #021B79 100%);
+}
+
+.username{
+    height: 60px;
+}
+
+.chatSection {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.messagesFeed {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.onlineUsers{
+    flex:1;
+    background: radial-gradient(
+    circle at 20% 20%, 
+    #FFFFFF 0%, 
+    #EBEBEB 50%, 
+    #C8C8C8 100%
+  );
+}
+

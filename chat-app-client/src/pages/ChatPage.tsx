@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { socket } from "../services/socket";
-import MessageCard from "../components/MessageCard";
-import MessageInput from "../components/MessageInput";
 import UserList from "../components/UsersList";
 import RoomLists from "../components/RoomsList";
 import type { Message, User, Room } from "../types";
@@ -87,22 +85,10 @@ function ChatPage({username}: ChatPageProps){
                 <RoomLists activeRoom={selectedRoom} onRoomSelect={setSelectedRoom} rooms={mockRooms} />
             </div>
             <div className={styles.chatSection}>
-                {/* <div className={styles.messagesFeed}>
-                    {
-                        messages.map((msg:Message) => (
-                            <MessageCard
-                                key={msg.id}
-                                message={msg}
-                                isOwn={msg.sender === username}
-                            />
-                        ))
-                    }
-                </div>
-                <MessageInput onSend={handleSend} /> */}
                 <MessageFeed handleSend={handleSend} messages={messages} username={username} />
             </div>
             <div className={styles.onlineUsers}>
-                <UserList users={users} />
+                <UserList users={users} onlineCount={1} selectedUser={users[0]} />
             </div>
         </div>
         </>

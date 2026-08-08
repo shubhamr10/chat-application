@@ -1,17 +1,48 @@
 import type { User } from "../types";
+import styles from "../assets/styles/UserList.component.module.css";
 
 interface UserListProps {
     users: User[];
+    onlineCount:number;
+    selectedUser:User;
+    handleUserClick:(user:User) => void;
 }
 
-function UserList({ users }: UserListProps){
+function UserList({ users, onlineCount, selectedUser, handleUserClick }: UserListProps){
     return (
-        <div style={{padding:"20px"}}>
-            <h3>Online Users</h3>
-            <ul style={{listStyleType:"none"}}>
-                {
+        <div className={styles.container} style={{padding:"20px"}}>
+            <header className={`${styles.header} poppins-medium`}>
+                Online Users &nbsp;<span>({onlineCount})</span>
+            </header>
+            <hr className={styles.ruler} />
+            <ul className={styles.usersList}>
+                {/* {
                     users.map((user) => (<li key={user.id}>{user.username}</li>))
-                }
+                } */}
+                {users.map((user:User) => {
+                    const isSelected = user.id === selectedUser.id;
+                return (
+                    <li
+                        key={user.id}
+                        className={`${styles.user_item} ${isSelected ? styles.selected : ''}`}
+                        onClick={() => handleUserClick(user)}
+                    >
+                        {/* Avatar */}
+                        <div className={styles.avatar_wrapper}>
+                            <div className={`${styles.avatar_img} poppins-bold`}>{user.username.charAt(0).toLocaleUpperCase()}</div>
+                        </div>
+
+                        {/* Details */}
+                        <div className={styles.user_info}>
+                        <span className={styles.username}>{user.username}</span>
+                        <div className={styles.status_container}>
+                            <span className={`${styles.status_dot} ${styles["online"]}`} />
+                            <span className={styles.status_text}>{"Online"}</span>
+                        </div>
+                        </div>
+                    </li>
+                    );
+                })}
             </ul>
         </div>
     )

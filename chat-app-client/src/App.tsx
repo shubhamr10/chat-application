@@ -8,7 +8,7 @@ import { checkIfTokenIsAvailable } from "./utils";
 function App(){
   const [username, setUsername] = useState<string>(()=>{
     let token = checkIfTokenIsAvailable();
-    return token ? token.userObject.username : "Kumar Shubham!!!";
+    return token ? token.userObject.username : "Kumar Shubham";
   });
 
   const [page, setPage] = useState<"login" | "signup">("login");

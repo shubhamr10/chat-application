@@ -1,0 +1,165 @@
+.RoomsListContainer{
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0; 
+}
+/* Container styling */
+.input_group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+/* Icon styling */
+.input_icon {
+    position: absolute;
+    left: 14px;
+    color: rgba(255, 255, 255, 0.6); /* Soft muted icon color */
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+/* Input element */
+.custom_input {
+    width: 100%;
+    height: 42px; /* Proportional sidebar height */
+    padding-left: 42px; 
+    padding-right: 14px;
+    color: #ffffff; /* White input text */
+    background-color: rgba(0, 0, 0, 0.18); /* Translucent overlay matching the design */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* Placeholder styling */
+.custom_input::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* Hover state */
+.custom_input:hover {
+    background-color: rgba(0, 0, 0, 0.24);
+}
+
+/* Active / Focus state */
+.custom_input:focus {
+    background-color: rgba(0, 0, 0, 0.28);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.input_group:focus-within .input_icon {
+    color: #ffffff;
+}
+
+.ruler{
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Container list */
+.room_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  flex: 1;           /* takes remaining space */
+  overflow-y: auto;
+}
+
+/* Individual room item */
+.room_item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.room_item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Selected state matching screenshot */
+.room_item.selected {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: #29b6f6; /* Cyan / bright blue highlight border */
+}
+
+/* Avatar container & online status */
+.avatar_wrapper {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.avatar_img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #EBEBEB;
+  font-size: 28px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: #FF708B;
+}
+
+/* Green status indicator badge */
+.status_badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  background-color: #22c55e;
+  border: 2px solid #0d52cd; /* Matches the sidebar blue background color */
+  border-radius: 50%;
+}
+
+/* Text details */
+.room_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.room_name {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.room_count {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 2px;
+}

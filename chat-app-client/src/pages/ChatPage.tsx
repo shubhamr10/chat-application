@@ -3,6 +3,7 @@ import { socket } from "../services/socket";
 import MessageCard from "../components/MessageCard";
 import MessageInput from "../components/MessageInput";
 import UserList from "../components/UsersList";
+import RoomLists from "../components/RoomsList";
 import type { Message, User, Room } from "../types";
 import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE } from "../contants";
 import styles from "../assets/styles/ChatPage.module.css";
@@ -20,7 +21,10 @@ interface ChatPageProps{
 function ChatPage({username}: ChatPageProps){
     const [messages, setMessages] = useState<Message[]>(mockMessages);
     const [users, setUsers] = useState<User[]>(mockUsers);
-    const [rooms, setRooms] = useState<Room[]>(mockRooms)
+    const [rooms, setRooms] = useState<Room[]>(mockRooms);
+
+    const [selectedRoom, setSelectedRoom] = useState<Room>(mockRooms[0]);
+
 
     // useEffect(() => {
     //     function onConnect(){
@@ -75,11 +79,11 @@ function ChatPage({username}: ChatPageProps){
         <div className={styles.topContainer}></div>
         <div className={styles.container}>
             <div className={styles.sidebar}>
-                <div className={styles.username}>
-                    <img src="" alt="" />
-                    <span>{username}</span>
+                <div className={styles.usernameSection}>
+                    <span className={`${styles.initials}  poppins-semibold`}>{ username.charAt(0).toUpperCase() }</span>
+                    <span className={`${styles.username}  sansation-regular`}>{username}</span>
                 </div>
-                {/** Room list goes here... */}
+                <RoomLists activeRoom={selectedRoom} onRoomSelect={setSelectedRoom} rooms={mockRooms} />
             </div>
             <div className={styles.chatSection}>
                 <div className={styles.messagesFeed}>

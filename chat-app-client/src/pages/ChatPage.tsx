@@ -8,7 +8,7 @@ import styles from "../assets/styles/ChatPage.module.css";
 import MessageFeed from "../components/MessageFeed";
 
 // Mock data only to be used during dev.
-import { mockUsers, mockMessages, mockRooms } from "../mock/data";
+// import { mockUsers, mockMessages, mockRooms } from "../mock/data";
 
 
 interface ChatPageProps{
@@ -18,50 +18,50 @@ interface ChatPageProps{
 
 
 function ChatPage({username}: ChatPageProps){
-    const [messages, setMessages] = useState<Message[]>(mockMessages);
-    const [users, setUsers] = useState<User[]>(mockUsers);
-    const [rooms, setRooms] = useState<Room[]>(mockRooms);
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
+    const [rooms, setRooms] = useState<Room[]>([]);
 
-    const [selectedRoom, setSelectedRoom] = useState<Room>(mockRooms[0]);
-
-
-    // useEffect(() => {
-    //     function onConnect(){
-    //         // Tell the server who this user is
-    //         socket.emit(SET_USERNAME, username);
-    //     }
-    //     // Connect if not already connected
-    //     if (!socket.connected) {
-    //         socket.connect();
-    //     } else {
-    //         onConnect();
-    //     }
+    const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
 
 
-    //     // Listen when socket is connected set the username
-    //     socket.on("connect", onConnect);
+    useEffect(() => {
+        function onConnect(){
+            // Tell the server who this user is
+            socket.emit(SET_USERNAME, username);
+        }
+        // Connect if not already connected
+        if (!socket.connected) {
+            socket.connect();
+        } else {
+            onConnect();
+        }
 
-    //     //Listen for incoming messages
-    //     socket.on(CHAT_MESSAGE, (message:Message) => {
-    //         setMessages((prev):Message[] => [...prev, message])
-    //     });
 
-    //     // Listen for user list updates
-    //     socket.on(USER_CONNECTED, (updatedUser: User[]) => {
-    //         setUsers(updatedUser);
-    //     });
-    //     socket.on(USER_DISCONNECTED, (updatedUser: User[]) => {
-    //         setUsers(updatedUser);
-    //     });
+        // Listen when socket is connected set the username
+        socket.on("connect", onConnect);
 
-    //     // CRITICAL - Cleanup do not skip this
-    //     return () => {
-    //         socket.off("connect", onConnect);
-    //         socket.off(CHAT_MESSAGE);
-    //         socket.off(USER_CONNECTED);
-    //         socket.off(USER_DISCONNECTED);
-    //     }
-    // }, [username]);
+        //Listen for incoming messages
+        socket.on(CHAT_MESSAGE, (message:Message) => {
+            setMessages((prev):Message[] => [...prev, message])
+        });
+
+        // Listen for user list updates
+        socket.on(USER_CONNECTED, (updatedUser: User[]) => {
+            setUsers(updatedUser);
+        });
+        socket.on(USER_DISCONNECTED, (updatedUser: User[]) => {
+            setUsers(updatedUser);
+        });
+
+        // CRITICAL - Cleanup do not skip this
+        return () => {
+            socket.off("connect", onConnect);
+            socket.off(CHAT_MESSAGE);
+            socket.off(USER_CONNECTED);
+            socket.off(USER_DISCONNECTED);
+        }
+    }, [username]);
 
 
     function handleSend(content:string):void{
@@ -82,7 +82,7 @@ function ChatPage({username}: ChatPageProps){
                     <span className={`${styles.initials}  poppins-semibold`}>{ username.charAt(0).toUpperCase() }</span>
                     <span className={`${styles.username}  sansation-regular`}>{username}</span>
                 </div>
-                <RoomLists activeRoom={selectedRoom} onRoomSelect={setSelectedRoom} rooms={mockRooms} />
+                <RoomLists activeRoom={selectedRoom} onRoomSelect={setSelectedRoom} rooms={rooms} />
             </div>
             <div className={styles.chatSection}>
                 <MessageFeed handleSend={handleSend} messages={messages} username={username} />

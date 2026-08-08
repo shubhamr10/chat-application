@@ -4,7 +4,7 @@ import styles from "../assets/styles/RoomsList.component.module.css";
 interface RoomListsProps {
     rooms:Room[],
     onRoomSelect:(room:Room)=>void,
-    activeRoom:Room
+    activeRoom:Room | null
 }
 
 function RoomList({rooms, onRoomSelect, activeRoom}:RoomListsProps ){
@@ -20,7 +20,7 @@ function RoomList({rooms, onRoomSelect, activeRoom}:RoomListsProps ){
             <hr className={styles.ruler} />
             <ul className={styles.room_list}>
                 {rooms.map((room) => {
-                    const isSelected = room.id === activeRoom.id;
+                    const isSelected = room.id === activeRoom?.id;
                     return (
                     <li
                         key={room.id}

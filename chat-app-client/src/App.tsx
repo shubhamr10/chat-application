@@ -16,7 +16,8 @@ function App(){
     if(token){
       const authUser:User = {
         id:(token.userObject.id),
-        username:token.userObject.username
+        username:token.userObject.username,
+        socket_id:""
       };
       return authUser
     }

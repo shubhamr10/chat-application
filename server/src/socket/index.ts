@@ -10,9 +10,9 @@ const userMapping: Record<string, SocketUsers> = {};
 export function registerSocketHandlers(io: Server) {
     io.on('connection', (socket: Socket) => {
         console.log(chalk.green(`A user connected: ${socket.id}`));
-
+        console.log(JSON.stringify(userMapping));
         registerUserHandler(io, socket, userMapping);
         registerMessageHandler(io, socket);
-        registerRoomHandler(io, socket);
+        registerRoomHandler(io, socket, userMapping);
     });
 }

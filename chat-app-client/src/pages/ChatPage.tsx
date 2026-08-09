@@ -3,9 +3,11 @@ import { socket } from "../services/socket";
 import UserList from "../components/UsersList";
 import RoomLists from "../components/RoomsList";
 import type { Message, User, Room } from "../types";
-import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE } from "../contants";
+import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE, JOIN_ROOM } from "../contants";
 import styles from "../assets/styles/ChatPage.module.css";
 import MessageFeed from "../components/MessageFeed";
+
+import { getRooms } from "../services/api";
 
 // Mock data only to be used during dev.
 // import { mockUsers, mockMessages, mockRooms } from "../mock/data";
@@ -24,6 +26,38 @@ function ChatPage({authUser}: ChatPageProps){
 
     const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
 
+useEffect(() => {
+    let mounted = true;
+
+    (async () => {
+        try {
+            const data = await getRooms();
+            if (!mounted) return; // StrictMode unmounted — abort
+
+            setRooms(data.rooms);
+            if (data.count > 0) {
+                const firstRoom = data.rooms[0];
+                setSelectedRoom(firstRoom);
+
+                if (socket.connected) {
+                    socket.emit(JOIN_ROOM, String(firstRoom.id));
+                } else {
+                    socket.once('connect', () => {
+                        socket.emit(JOIN_ROOM, String(firstRoom.id));
+                    });
+                }
+            }
+        } catch (e) {
+            console.error('error while fetching rooms', e);
+        }
+    })();
+
+    return () => {
+        mounted = false;
+        socket.off('connect'); // remove the once listener on cleanup
+    };
+}, []);
+
 
     useEffect(() => {
         function onConnect(){
@@ -31,9 +65,9 @@ function ChatPage({authUser}: ChatPageProps){
             socket.emit(SET_USERNAME, authUser.username);
         }
         // Connect if not already connected
-        if (!socket.connected) {
+        if (!socket.active) {
             socket.connect();
-        } else {
+        } else if (socket.connected) {
             onConnect();
         }
 
@@ -69,10 +103,18 @@ function ChatPage({authUser}: ChatPageProps){
             id: Date.now().toString(),
             content,
             sender: authUser.username,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            roomId:String(selectedRoom?.id ?? '')
         };
         socket.emit(CHAT_MESSAGE, message);
     }
+
+    function handleRoomSelect(room: Room){
+        setSelectedRoom(room);
+        setMessages([]); // clear previous room messages
+        socket.emit(JOIN_ROOM, String(room.id));
+    }
+
     return (
         <>
         <div className={styles.topContainer}></div>
@@ -82,7 +124,7 @@ function ChatPage({authUser}: ChatPageProps){
                     <span className={`${styles.initials}  poppins-semibold`}>{ authUser.username.charAt(0).toUpperCase() }</span>
                     <span className={`${styles.username}  sansation-regular`}>{authUser.username}</span>
                 </div>
-                <RoomLists activeRoom={selectedRoom} onRoomSelect={setSelectedRoom} rooms={rooms} />
+                <RoomLists activeRoom={selectedRoom} onRoomSelect={handleRoomSelect} rooms={rooms} />
             </div>
             <div className={styles.chatSection}>
                 <MessageFeed handleSend={handleSend} messages={messages} username={authUser.username} />

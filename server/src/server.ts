@@ -3,6 +3,7 @@ import express from "express";
 import { Server } from "socket.io";
 import chalk from "chalk";
 import authRouter from "./routes/auth";
+import roomRouter from "./routes/room";
 import {pool} from "./db";
 import { authSocket } from "./middleware/authSocket";
 import cors from "cors";
@@ -17,6 +18,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use("/auth", authRouter);
+app.use("/rooms", roomRouter);
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors : {
@@ -24,7 +27,6 @@ const io = new Server(server, {
     methods:["GET", "POST"]
   }
 });
-
 
 // Integrate the authSocket middleware
 io.use(authSocket);

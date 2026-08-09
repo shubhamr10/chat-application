@@ -11,6 +11,7 @@ export function registerMessageHandler(
         // Get the room this socket is currently in
         // socket.rooms is a Set containing socket.id + all joined rooms
         const roomId = Array.from(socket.rooms).find(room => room !== socket.id);
+        console.log(roomId,"finding rooms")
 
         if(!roomId) return; // not in any room ignore
 
@@ -19,6 +20,5 @@ export function registerMessageHandler(
             roomId
         })
         console.log(chalk.hex('#007bff')('user has sent a message'));
-        io.emit(CHAT_MESSAGE, message);
     })
 }

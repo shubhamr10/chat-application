@@ -3,6 +3,7 @@ export interface Message{
     content:string;
     sender:string;
     timestamp:string;
+    roomId:string;
 };
 
 export interface Room{

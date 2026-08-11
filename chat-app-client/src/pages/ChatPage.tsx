@@ -127,7 +127,7 @@ useEffect(() => {
                 <RoomLists activeRoom={selectedRoom} onRoomSelect={handleRoomSelect} rooms={rooms} />
             </div>
             <div className={styles.chatSection}>
-                <MessageFeed handleSend={handleSend} messages={messages} username={authUser.username} />
+                <MessageFeed handleSend={handleSend} messages={messages} username={authUser.username} roomName={selectedRoom?.name ?? 'Select a room'} />
             </div>
             <div className={styles.onlineUsers}>
                 <UserList users={users} handleUserClick={()=>{}} onlineCount={users.length} selectedUser={authUser} />

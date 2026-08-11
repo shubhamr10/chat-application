@@ -22,9 +22,19 @@ async function migrate(){
     await pool.query(`
         INSERT INTO rooms (name) VALUES ('general'), ('project-delta'), ('coffee-talk'), ('project-talk')
         ON CONFLICT (name) DO NOTHING
-    `)
+    `);
 
-    console.log("Migration completed - user table ready!");
+    await pool.query(`
+    CREATE TABLE IF NOT EXISTS messages (
+        id SERIAL PRIMARY KEY,
+        content TEXT NOT NULL,
+        sender_id INTEGER REFERENCES users(id),
+        room_id INTEGER REFERENCES rooms(id),
+        created_at TIMESTAMP DEFAULT NOW()
+        )
+    `);
+
+    console.log("Migration completed - user, rooms, messages table ready!");
     await pool.end();
 }
 

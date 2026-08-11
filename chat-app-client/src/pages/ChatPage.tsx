@@ -3,7 +3,7 @@ import { socket } from "../services/socket";
 import UserList from "../components/UsersList";
 import RoomLists from "../components/RoomsList";
 import type { Message, User, Room } from "../types";
-import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE, JOIN_ROOM } from "../contants";
+import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE, JOIN_ROOM, MESSAGE_HISTORY } from "../contants";
 import styles from "../assets/styles/ChatPage.module.css";
 import MessageFeed from "../components/MessageFeed";
 
@@ -88,12 +88,17 @@ useEffect(() => {
             setUsers(updatedUser);
         });
 
+        socket.on(MESSAGE_HISTORY, (history: Message[]) => {
+            setMessages(history);
+        });
+
         // CRITICAL - Cleanup do not skip this
         return () => {
             socket.off("connect", onConnect);
             socket.off(CHAT_MESSAGE);
             socket.off(USER_CONNECTED);
             socket.off(USER_DISCONNECTED);
+            socket.off(MESSAGE_HISTORY);
         }
     }, [authUser.username]);
 

@@ -5,7 +5,7 @@ export const SET_USERNAME = "set_username";
 
 // messages
 export const CHAT_MESSAGE = "chat_message";
-
+export const MESSAGE_HISTORY = "message_history";
 
 // rooms
 export const JOIN_ROOM = "join_room";

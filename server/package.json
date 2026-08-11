@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "tsx src/server.ts",
     "build": "tsc --project tsconfig.json",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "migrate": "npx tsx src/db/migrate.ts"
   },
   "keywords": [],
   "author": "",

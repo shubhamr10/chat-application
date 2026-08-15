@@ -9,7 +9,6 @@ export function registerTypingHandler(
     socket.on(USER_TYPING, ()=> {
         // socket.rooms is a Set containing socket.id + all joined rooms
         const roomId = Array.from(socket.rooms).find(room => room !== socket.id);
-        console.log(roomId,"finding rooms")
 
         if(!roomId) return; // not in any room ignore
 
@@ -20,7 +19,6 @@ export function registerTypingHandler(
     socket.on(USER_STOPPED_TYPING, () => {
         // socket.rooms is a Set containing socket.id + all joined rooms
         const roomId = Array.from(socket.rooms).find(room => room !== socket.id);
-        console.log(roomId,"finding rooms")
 
         if(!roomId) return; // not in any room ignore
 

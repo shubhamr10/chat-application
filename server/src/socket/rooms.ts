@@ -16,6 +16,7 @@ export function registerRoomHandler(
             .forEach(room => socket.leave(room));
 
         console.log(socket.rooms);
+        socket.data.currentRoom = roomId;
         // Jon the new room
         socket.join(roomId);
         console.log(`${socket.data.user.username} joined room ${roomId}`);

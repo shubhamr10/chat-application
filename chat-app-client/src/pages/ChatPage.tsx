@@ -3,7 +3,7 @@ import { socket } from "../services/socket";
 import UserList from "../components/UsersList";
 import RoomLists from "../components/RoomsList";
 import type { Message, User, Room, UserPresence } from "../types";
-import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE, JOIN_ROOM, MESSAGE_HISTORY } from "../contants";
+import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE, JOIN_ROOM, MESSAGE_HISTORY, USER_TYPING, USER_STOPPED_TYPING } from "../contants";
 import styles from "../assets/styles/ChatPage.module.css";
 import MessageFeed from "../components/MessageFeed";
 
@@ -23,6 +23,7 @@ function ChatPage({authUser}: ChatPageProps){
     const [messages, setMessages] = useState<Message[]>([]);
     const [users, setUsers] = useState<UserPresence[]>([]);
     const [rooms, setRooms] = useState<Room[]>([]);
+    const [typingUsers, setTypingUsers] = useState<string[]>([]);
 
     const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
 
@@ -86,15 +87,23 @@ useEffect(() => {
         });
 
         // Listen for user list updates
-        socket.on(USER_CONNECTED, (updatedUser: User[]) => {
+        socket.on(USER_CONNECTED, () => {
             getUsers().then(data => setUsers(data.users));
         });
-        socket.on(USER_DISCONNECTED, (updatedUser: User[]) => {
+        socket.on(USER_DISCONNECTED, () => {
             getUsers().then(data => setUsers(data.users));
         });
 
         socket.on(MESSAGE_HISTORY, (history: Message[]) => {
             setMessages(history);
+        });
+
+        socket.on(USER_TYPING, ({username}:{username:string}) => {
+            setTypingUsers(prev => prev.includes(username) ? prev : [...prev, username]);
+        });
+
+        socket.on(USER_STOPPED_TYPING, ({username}:{username:string}) => {
+            setTypingUsers(prev => prev.filter(u => u !== username));
         });
 
         // CRITICAL - Cleanup do not skip this
@@ -104,6 +113,8 @@ useEffect(() => {
             socket.off(USER_CONNECTED);
             socket.off(USER_DISCONNECTED);
             socket.off(MESSAGE_HISTORY);
+            socket.off(USER_TYPING);
+            socket.off(USER_STOPPED_TYPING);
         }
     }, [authUser.username]);
 
@@ -137,7 +148,7 @@ useEffect(() => {
                 <RoomLists activeRoom={selectedRoom} onRoomSelect={handleRoomSelect} rooms={rooms} />
             </div>
             <div className={styles.chatSection}>
-                <MessageFeed handleSend={handleSend} messages={messages} username={authUser.username} roomName={selectedRoom?.name ?? 'Select a room'} />
+                <MessageFeed handleSend={handleSend} messages={messages} typingUsers={typingUsers} username={authUser.username} roomId={selectedRoom?.id ?? ''} roomName={selectedRoom?.name ?? 'Select a room'} />
             </div>
             <div className={styles.onlineUsers}>
                 <UserList users={users} handleUserClick={()=>{}} onlineCount={users.length} selectedUser={authUser} />

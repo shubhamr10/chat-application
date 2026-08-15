@@ -1,12 +1,31 @@
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "../assets/styles/MessageInput.component.module.css";
+import { socket } from "../services/socket";
+import { USER_TYPING, USER_STOPPED_TYPING } from "../contants";
 
 interface MessageInputProps {
     onSend: (content:string) => void;
+    roomId:string;
 }
 
-function MessageInput({onSend}:MessageInputProps){
+function MessageInput({onSend, roomId}:MessageInputProps){
     const [message, setMessage] = useState<string>("");
+    const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    function handleChange(e:React.ChangeEvent<HTMLInputElement>){
+        setMessage(e.target.value);
+        // emit typing
+        socket.emit(USER_TYPING, roomId);
+        // Clear previous timeout
+        if(typingTimeoutRef.current){
+            clearTimeout(typingTimeoutRef.current);
+        }
+
+        // Auto stop typing after 2 seconds of inactivity
+        typingTimeoutRef.current = setTimeout(() => {
+            socket.emit(USER_STOPPED_TYPING, roomId);
+        }, 1500);
+    }
 
     function handleSubmit(e:React.SubmitEvent<HTMLFormElement>){
         e.preventDefault();
@@ -21,6 +40,11 @@ function MessageInput({onSend}:MessageInputProps){
             if(message.trim() === "") return;
             onSend(message.trim());
             setMessage("");
+            socket.emit(USER_STOPPED_TYPING, roomId);
+            // Clear previous timeout
+            if(typingTimeoutRef.current){
+                clearTimeout(typingTimeoutRef.current);
+            }
         }
     };
 
@@ -34,7 +58,7 @@ function MessageInput({onSend}:MessageInputProps){
                     className={styles.message_input}
                     placeholder="Type a message..."
                     value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    onChange={handleChange}
                     onKeyDown={handleKeyDown}
                 />
 

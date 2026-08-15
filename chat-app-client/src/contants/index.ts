@@ -6,3 +6,8 @@ export const MESSAGE_HISTORY = "message_history";
 // rooms
 export const JOIN_ROOM = "join_room";
 export const LEAVE_ROOM = "leave_room";
+
+
+// TYPING
+export const USER_TYPING = "user_typing";
+export const USER_STOPPED_TYPING = "user_stopped_typing";

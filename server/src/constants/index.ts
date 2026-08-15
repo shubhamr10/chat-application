@@ -11,3 +11,5 @@ export const MESSAGE_HISTORY = "message_history";
 export const JOIN_ROOM = "join_room";
 export const LEAVE_ROOM = "leave_room";
 
+// GRACE PERIOD
+export const OFFLINE_GRACE_MS = 10000;

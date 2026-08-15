@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import chalk from "chalk";
 import authRouter from "./routes/auth";
 import roomRouter from "./routes/room";
+import userRouter from "./routes/user"
 import {pool} from "./db";
 import { authSocket } from "./middleware/authSocket";
 import cors from "cors";
@@ -19,6 +20,7 @@ app.use(cors({
 app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/rooms", roomRouter);
+app.use("/users", userRouter);
 
 const server = http.createServer(app);
 const io = new Server(server, {

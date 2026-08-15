@@ -34,6 +34,12 @@ async function migrate(){
         )
     `);
 
+    await pool.query(`
+        ALTER TABLE users
+        ADD COLUMN IF NOT EXISTS is_online BOOLEAN DEFAULT FALSE,
+        ADD COLUMN IF NOT EXISTS last_seen TIMESTAMP DEFAULT NOW()
+    `);
+
     console.log("Migration completed - user, rooms, messages table ready!");
     await pool.end();
 }

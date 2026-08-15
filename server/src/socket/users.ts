@@ -4,13 +4,13 @@ import type { TokenPayload } from "../middleware/authSocket";
 import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, OFFLINE_GRACE_MS } from "../constants";
 import chalk from "chalk";
 import { pool } from "../db";
-const disconnectTimers:Record<string, ReturnType<typeof setTimeout>> = {};
+const disconnectTimers:Record<number, ReturnType<typeof setTimeout>> = {};
 
 
 export function registerUserHandler(
     io:Server,
     socket:Socket,
-    userMapping:Record<string, SocketUsers>
+    userMapping:Record<number, SocketUsers>
 ){
     socket.on(SET_USERNAME, async () => {
         console.log(chalk.green("set_username called!", JSON.stringify(userMapping)))
@@ -22,7 +22,7 @@ export function registerUserHandler(
 
         // overwrite the previous entry - handle refresh cleanly
         userMapping[user.id] = {
-            id:String(user.id),
+            id:user.id,
             username:user.username,
             socket_id:socket.id
         }

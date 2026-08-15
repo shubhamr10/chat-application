@@ -50,6 +50,16 @@ export function registerUserHandler(
 
         delete userMapping[user.id];
 
+        // Clear typing indicator for this user in all rooms
+        const rooms = Array.from(socket.rooms)
+            .filter(room => room !== socket.id);
+
+        rooms.forEach(roomId => {
+            socket.to(roomId).emit('stop_typing', {
+                username: socket.data.user.username
+            });
+        });
+
         disconnectTimers[user.id] = setTimeout(async ()=>{
             if(!userMapping[user.id]){
                 await pool.query(`

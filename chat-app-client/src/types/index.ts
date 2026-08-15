@@ -37,3 +37,10 @@ export interface AuthResponse {
         email:string;
     }
 }
+
+export interface UserPresence{
+    id: number;
+    username:string;
+    is_online: boolean;
+    last_seen: boolean;
+}

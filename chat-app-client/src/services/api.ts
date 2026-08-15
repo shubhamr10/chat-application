@@ -1,4 +1,4 @@
-import type { UserLoginPayload, UserSignUpPayload, AuthResponse } from "../types/index";
+import type { UserLoginPayload, UserSignUpPayload, AuthResponse, UserPresence } from "../types/index";
 import { apiCall } from "../utils";
 import type { Room } from "../types/index";
 
@@ -16,4 +16,9 @@ export async function register(payload:UserSignUpPayload):Promise<AuthResponse>{
 // GET - get all rooms
 export async function getRooms(): Promise<{ rooms: Room[], count: number }> {
     return apiCall<{ rooms: Room[], count: number }>('/rooms', 'GET');
+}
+
+// GET - get all users
+export async function getUsers(): Promise<{ users: UserPresence[], count:number }> {
+    return apiCall<{ users: UserPresence[], count:number }>("/users", "GET");
 }

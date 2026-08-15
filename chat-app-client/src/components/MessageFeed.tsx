@@ -1,5 +1,5 @@
 import styles from "../assets/styles/MessageFeed.component.module.css";
-import type { Message, Room } from "../types";
+import type { Message } from "../types";
 import MessageCard from "./MessageCard";
 import MessageInput from "./MessageInput";
 

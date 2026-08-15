@@ -1,11 +1,11 @@
-import type { User } from "../types";
+import type { User, UserPresence } from "../types";
 import styles from "../assets/styles/UserList.component.module.css";
 
 interface UserListProps {
-    users: User[];
+    users: UserPresence[];
     onlineCount:number;
     selectedUser:User;
-    handleUserClick:(user:User) => void;
+    handleUserClick:(user:UserPresence) => void;
 }
 
 function UserList({ users, onlineCount, selectedUser, handleUserClick }: UserListProps){
@@ -19,8 +19,9 @@ function UserList({ users, onlineCount, selectedUser, handleUserClick }: UserLis
                 {/* {
                     users.map((user) => (<li key={user.id}>{user.username}</li>))
                 } */}
-                {users.map((user:User) => {
+                {users.map((user:UserPresence) => {
                     const isSelected = user.id === selectedUser.id;
+                    const onlineState = user.is_online ? 'online' : 'offline';
                 return (
                     <li
                         key={user.id}
@@ -36,8 +37,8 @@ function UserList({ users, onlineCount, selectedUser, handleUserClick }: UserLis
                         <div className={styles.user_info}>
                         <span className={styles.username}>{user.username}</span>
                         <div className={styles.status_container}>
-                            <span className={`${styles.status_dot} ${styles["online"]}`} />
-                            <span className={styles.status_text}>{"Online"}</span>
+                            <span className={`${styles.status_dot} ${styles[onlineState]}`} />
+                            <span className={styles.status_text}>{onlineState}</span>
                         </div>
                         </div>
                     </li>

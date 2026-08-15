@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { socket } from "../services/socket";
 import UserList from "../components/UsersList";
 import RoomLists from "../components/RoomsList";
-import type { Message, User, Room } from "../types";
+import type { Message, User, Room, UserPresence } from "../types";
 import { USER_CONNECTED, USER_DISCONNECTED, SET_USERNAME, CHAT_MESSAGE, JOIN_ROOM, MESSAGE_HISTORY } from "../contants";
 import styles from "../assets/styles/ChatPage.module.css";
 import MessageFeed from "../components/MessageFeed";
 
-import { getRooms } from "../services/api";
+import { getRooms, getUsers } from "../services/api";
 
 // Mock data only to be used during dev.
 // import { mockUsers, mockMessages, mockRooms } from "../mock/data";
@@ -21,7 +21,7 @@ interface ChatPageProps{
 
 function ChatPage({authUser}: ChatPageProps){
     const [messages, setMessages] = useState<Message[]>([]);
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<UserPresence[]>([]);
     const [rooms, setRooms] = useState<Room[]>([]);
 
     const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
@@ -50,6 +50,11 @@ useEffect(() => {
         } catch (e) {
             console.error('error while fetching rooms', e);
         }
+    })();
+
+    (async ()=> {
+        const data = await getUsers();
+        setUsers(data.users);
     })();
 
     return () => {
@@ -82,10 +87,10 @@ useEffect(() => {
 
         // Listen for user list updates
         socket.on(USER_CONNECTED, (updatedUser: User[]) => {
-            setUsers(updatedUser);
+            getUsers().then(data => setUsers(data.users));
         });
         socket.on(USER_DISCONNECTED, (updatedUser: User[]) => {
-            setUsers(updatedUser);
+            getUsers().then(data => setUsers(data.users));
         });
 
         socket.on(MESSAGE_HISTORY, (history: Message[]) => {

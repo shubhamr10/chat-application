@@ -13,3 +13,7 @@ export const LEAVE_ROOM = "leave_room";
 
 // GRACE PERIOD
 export const OFFLINE_GRACE_MS = 10000;
+
+// TYPING
+export const USER_TYPING = "user_typing";
+export const USER_STOPPED_TYPING = "user_stopped_typing";

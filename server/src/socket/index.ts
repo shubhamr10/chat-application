@@ -3,6 +3,7 @@ import type {SocketUsers} from "../types";
 import { registerUserHandler } from "./users";
 import { registerMessageHandler } from "./messages";
 import { registerRoomHandler } from "./rooms";
+import { registerTypingHandler } from "./typing";
 import chalk from "chalk";
 
 const userMapping: Record<string, SocketUsers> = {};
@@ -14,5 +15,6 @@ export function registerSocketHandlers(io: Server) {
         registerUserHandler(io, socket, userMapping);
         registerMessageHandler(io, socket);
         registerRoomHandler(io, socket, userMapping);
+        registerTypingHandler(io, socket);
     });
 }

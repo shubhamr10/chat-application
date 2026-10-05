@@ -1,0 +1,102 @@
+/* Base message container */
+.message_item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 16px;
+  list-style: none;
+}
+
+/* Left alignment for other users */
+.message_item.other {
+  align-items: flex-start;
+}
+
+/* Right alignment for current user */
+.message_item.self {
+  align-items: flex-end;
+}
+
+/* Sender Name */
+.sender_name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 6px;
+}
+
+.message_item.other .sender_name {
+  margin-left: 70px; /* Aligns with bubble start past the avatar */
+}
+
+.message_item.self .sender_name {
+  margin-right: 70px; /* Aligns with bubble start past the avatar */
+}
+
+/* Row containing avatar and message bubble */
+.content_row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 75%;
+}
+
+/* Flip order of avatar and bubble for self */
+.message_item.self .content_row {
+  flex-direction: row-reverse;
+}
+
+/* Avatar styling */
+.avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #EBEBEB;
+    font-size: 28px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: #FF708B;
+    flex-shrink: 0;
+}
+
+/* Base Bubble */
+.bubble {
+  padding: 12px 18px;
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 1.45;
+  font-family: 'Poppins', sans-serif;
+  word-break: break-word;
+}
+
+/* Incoming message style */
+.message_item.other .bubble {
+  background-color: #eef0f3; /* Light grey background */
+  color: #1a1a1a;
+}
+
+/* Outgoing message style */
+.message_item.self .bubble {
+  background-color: #007aff; /* Primary blue background */
+  color: #ffffff;
+}
+
+/* Timestamp text */
+.timestamp {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 4px;
+}
+
+.message_item.other .timestamp {
+  margin-left: 70px;
+}
+
+.message_item.self .timestamp {
+  margin-right: 70px;
+}

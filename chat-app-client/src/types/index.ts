@@ -3,6 +3,7 @@ export interface Message{
     content:string;
     sender:string;
     timestamp:string;
+    roomId:string;
 };
 
 export interface Room{
@@ -11,6 +12,35 @@ export interface Room{
 }
 
 export interface User{
-    id:string;
+    id:number;
     username:string;
+    socket_id: string;
+}
+
+// API's interface
+export interface UserSignUpPayload{
+    username:string;
+    email:string;
+    password:string;
+};
+
+export interface UserLoginPayload{
+    email:string;
+    password:string;
+}
+
+export interface AuthResponse {
+    token:string;
+    userObject:{
+        id:number;
+        username:string;
+        email:string;
+    }
+}
+
+export interface UserPresence{
+    id: number;
+    username:string;
+    is_online: boolean;
+    last_seen: boolean;
 }

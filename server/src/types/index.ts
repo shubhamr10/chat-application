@@ -1,5 +1,5 @@
 export interface User {
-    id:string;
+    id:number;
     username:string;
 }
 
@@ -8,9 +8,16 @@ export interface Message{
     content:string;
     sender:string;
     timestamp:string;
+    roomId:string;
 }
 
 export interface Room{
     id:string;
     name:string;
+    created_at:string;
+}
+
+
+export interface SocketUsers extends User {
+    socket_id:string;
 }

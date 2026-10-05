@@ -1,0 +1,125 @@
+
+.LoginFormContainer{
+    height: 430px;
+    width: 320px;
+    margin: 0 auto;
+}
+
+.form_header{
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hello_text{
+    color: #333333;
+    font-size: 26px;
+    display: block;
+}
+
+.welcome_text{
+    color: #333333;
+    font-size: 18px;
+    display: block;
+}
+
+/* input group div */
+.input_group{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 320px; /* Adjust as needed */
+    margin-bottom: 16px;
+}
+
+.input_icon{
+    position: absolute;
+    left: 16px;
+    pointer-events: none;
+    transition: fill 0.2s ease;
+}
+
+.custom_input{
+    width: 100%;
+    height: 60px;
+    padding-left: 48px; 
+    padding-right: 16px;
+    color: #bbbbbb;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s ease;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+}
+
+
+.custom_input::placeholder {
+    color: #cccccc;
+}
+
+.custom_input:focus {
+    border: none;
+    outline: none;
+}
+
+.login_button{
+    width: 100%;
+    background-color: #0575E6;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    color:#ffffff;
+    font-size: 16px;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+}
+
+.form_footer{
+    margin-top: 33px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.forget_password{
+    color:#5a5959;
+    font-size: 16px;
+    margin-bottom: 32px;
+    text-align: center;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.signup_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between icon and text */
+  width: 100%;
+  max-width: 320px;
+  height: 48px;
+  background-color: #ffffff;
+  color: #007bff; /* Primary brand blue */
+  border: 1.5px solid #007bff;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.signup_icon {
+  color: #007bff;
+}
+
+/* Smooth hover state */
+.signup_button:hover {
+  background-color: #f0f7ff; 
+  border-color: #0056b3;
+  color: #0056b3;
+}

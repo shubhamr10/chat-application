@@ -30,3 +30,14 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+
+```html
+        <div>
+            <h2>Welcome to the chat room! Enter your username.</h2>
+                <form action="" onSubmit={handleSubmit}>
+                    <input type="text" value={username} onChange={onChangeHandler} />
+                    <button type="submit">Go to chatroom!</button>
+                </form>
+        </div>
+```

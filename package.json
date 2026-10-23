@@ -1,0 +1,25 @@
+{
+  "name": "chat_app_one",
+  "version": "1.0.0",
+  "description": "A chat application in progress",
+  "keywords": [
+    "chat",
+    "spandan",
+    "socket"
+  ],
+  "homepage": "https://github.com/shubhamr10/chat-application#readme",
+  "bugs": {
+    "url": "https://github.com/shubhamr10/chat-application/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubhamr10/chat-application.git"
+  },
+  "license": "MIT",
+  "author": "shrauniyar10",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
